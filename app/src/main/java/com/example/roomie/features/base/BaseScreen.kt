@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.example.roomie.features.navBar.HomeNavBarItem
+import com.example.roomie.features.navBar.ItemsNavBarItem
 import com.example.roomie.features.navBar.NavBar
 import com.example.roomie.navigation.NavGraphs
 import com.ramcosta.composedestinations.DestinationsNavHost
@@ -21,8 +22,10 @@ fun BaseScreen() {
     Scaffold(
         bottomBar = {
             NavBar(
+                navController = navController,
                 items = listOf(
                     HomeNavBarItem(navController),
+                    ItemsNavBarItem(navController),
                 )
             )
         }
