@@ -2,7 +2,8 @@ package com.example.roomie.navigation
 
 import androidx.compose.runtime.Composable
 import com.example.roomie.features.home.HomeScreen
-import com.example.roomie.features.payments.PaymentsItem
+import com.example.roomie.domain.payments.PaymentsItem
+import com.example.roomie.domain.people.Person
 import com.example.roomie.features.payments.PaymentsScreen
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
@@ -23,11 +24,13 @@ fun Payments() {
        items = listOf(
            PaymentsItem(
                title = "Walmart",
+               whoPaid = Person(name = "Josh"),
                payment = 1.22,
                date = Date(),
            ),
            PaymentsItem(
                title = "Allo",
+               whoPaid = Person(name = "Kylee"),
                payment = 60.22,
                date = Date(),
            )
