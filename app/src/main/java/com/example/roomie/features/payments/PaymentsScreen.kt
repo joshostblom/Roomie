@@ -1,5 +1,7 @@
 package com.example.roomie.features.payments
 
+import android.app.DatePickerDialog
+import android.widget.DatePicker
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -16,6 +18,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
@@ -47,12 +50,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
 import com.example.roomie.domain.payments.PaymentsItem
 import com.example.roomie.domain.people.PeopleHelper
 import com.example.roomie.domain.people.Person
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -155,7 +162,7 @@ fun PaymentsCard(
                 )
 
                 Text(
-                    text = SimpleDateFormat.getDateInstance().format(item.date).toString(),
+                    text = DateTimeFormatter.ofPattern("MMM. d, yyyy", Locale.US).format(item.date),
                     color = Color.Gray,
                 )
             }
@@ -189,7 +196,7 @@ fun EditPayment(
     val people = PeopleHelper(LocalContext.current).getPeople()
 
     Dialog(
-        onDismissRequest = { onClose() }
+        onDismissRequest = { onClose() },
     ) {
 
         Box(
@@ -197,11 +204,12 @@ fun EditPayment(
                 .clip(RoundedCornerShape(10))
                 .background(color = MaterialTheme.colorScheme.background)
                 .size(350.dp, 600.dp)
-                .clickable(enabled = false) {}
                 .padding(25.dp),
         ) {
 
-            Column {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(5.dp)
+            ) {
 
                 Text(
                     text = "Who's paying?",
@@ -240,6 +248,46 @@ fun EditPayment(
                                 })
                         }
                     }
+                }
+
+                var title by remember { mutableStateOf(item.title) }
+                Text(
+                    text = "What was paid?",
+                    fontWeight = FontWeight.Bold,
+                )
+                TextField(
+                    value = title,
+                    onValueChange = { title = it },
+                    colors = TextFieldDefaults.textFieldColors(
+                        containerColor = Color(
+                            0x3BA3A3A3
+                        )
+                    ),
+                )
+
+                val datePicker = DatePickerDialog(LocalContext.current)
+                var date by remember { mutableStateOf(item.date) }
+                datePicker.updateDate(date.year, date.monthValue - 1 , date.dayOfMonth)
+                datePicker.datePicker.setOnDateChangedListener { _, year, month, day ->
+                    date = LocalDate.of(year, month + 1, day)
+                }
+                Text(
+                    text = "When was it paid?",
+                    fontWeight = FontWeight.Bold,
+                )
+                Box (
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(55.dp)
+                        .background(color = Color(0x3BA3A3A3))
+                        .padding(15.dp)
+                        .clickable { datePicker.show() }
+                ) {
+                    Text(
+                        modifier = Modifier
+                            .align(Alignment.CenterStart),
+                        text = DateTimeFormatter.ofPattern("MMM. d, yyyy", Locale.US).format(date),
+                    )
                 }
             }
 

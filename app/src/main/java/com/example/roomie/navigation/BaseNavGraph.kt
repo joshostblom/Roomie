@@ -26,13 +26,11 @@ fun Payments() {
                title = "Walmart",
                whoPaid = Person(name = "Josh"),
                payment = 1.22,
-               date = Date(),
            ),
            PaymentsItem(
                title = "Allo",
                whoPaid = Person(name = "Kylee"),
                payment = 60.22,
-               date = Date(),
            )
        )
     )
