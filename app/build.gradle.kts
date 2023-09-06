@@ -73,5 +73,7 @@ dependencies {
     implementation("io.github.raamcosta.compose-destinations:core:1.9.51")
     ksp("io.github.raamcosta.compose-destinations:ksp:1.9.51")
 
+    //Tools
+    implementation("com.google.code.gson:gson:2.8.9")
 
 }
