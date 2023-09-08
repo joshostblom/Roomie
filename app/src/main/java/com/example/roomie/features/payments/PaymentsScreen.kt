@@ -34,7 +34,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -47,15 +46,18 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
+import androidx.core.text.isDigitsOnly
 import com.example.roomie.domain.payments.PaymentsItem
 import com.example.roomie.domain.people.PeopleHelper
 import com.example.roomie.domain.people.Person
+import java.lang.StringBuilder
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -227,6 +229,7 @@ fun EditPayment(
                         modifier = Modifier.menuAnchor(),
                         onValueChange = {},
                         readOnly = true,
+                        singleLine = true,
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded) },
                         colors = TextFieldDefaults.textFieldColors(
                             containerColor = Color(
@@ -252,12 +255,13 @@ fun EditPayment(
 
                 var title by remember { mutableStateOf(item.title) }
                 Text(
-                    text = "What was paid?",
+                    text = "Where was it paid?",
                     fontWeight = FontWeight.Bold,
                 )
                 TextField(
                     value = title,
                     onValueChange = { title = it },
+                    singleLine = true,
                     colors = TextFieldDefaults.textFieldColors(
                         containerColor = Color(
                             0x3BA3A3A3
@@ -267,7 +271,7 @@ fun EditPayment(
 
                 val datePicker = DatePickerDialog(LocalContext.current)
                 var date by remember { mutableStateOf(item.date) }
-                datePicker.updateDate(date.year, date.monthValue - 1 , date.dayOfMonth)
+                datePicker.updateDate(date.year, date.monthValue - 1, date.dayOfMonth)
                 datePicker.datePicker.setOnDateChangedListener { _, year, month, day ->
                     date = LocalDate.of(year, month + 1, day)
                 }
@@ -275,7 +279,7 @@ fun EditPayment(
                     text = "When was it paid?",
                     fontWeight = FontWeight.Bold,
                 )
-                Box (
+                Box(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(55.dp)
@@ -289,6 +293,28 @@ fun EditPayment(
                         text = DateTimeFormatter.ofPattern("MMM. d, yyyy", Locale.US).format(date),
                     )
                 }
+
+                var payment by remember { mutableStateOf(String.format("$%.2f", item.payment)) }
+                Text(
+                    text = "How much was paid?",
+                    fontWeight = FontWeight.Bold,
+                )
+                TextField(
+                    value = payment,
+                    onValueChange = {input ->
+                        if(input.filterNot { it == '$' || it == '.' }.isDigitsOnly()) {
+                        payment = StringBuilder(input.filterNot { it == '$' || it == '.' }).insert(input.length - 3, ".").toString()
+                    } },
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Number,
+                    ),
+                    colors = TextFieldDefaults.textFieldColors(
+                        containerColor = Color(
+                            0x3BA3A3A3
+                        )
+                    ),
+                )
             }
 
             Row(
