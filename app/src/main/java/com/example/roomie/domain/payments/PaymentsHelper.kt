@@ -5,7 +5,7 @@ import com.example.roomie.domain.people.Person
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-class PaymentsHelper (
+class PaymentsHelper(
     private val context: Context,
 ) {
     fun getPayments(): List<PaymentsItem> {

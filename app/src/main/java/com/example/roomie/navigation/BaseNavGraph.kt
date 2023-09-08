@@ -1,6 +1,12 @@
 package com.example.roomie.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
+import com.example.roomie.domain.payments.PaymentsHelper
 import com.example.roomie.features.home.HomeScreen
 import com.example.roomie.domain.payments.PaymentsItem
 import com.example.roomie.domain.people.Person
@@ -20,18 +26,15 @@ fun Home() {
 @Destination
 @Composable
 fun Payments() {
+
+    val paymentsHelper = PaymentsHelper(LocalContext.current)
+    var items by remember { mutableStateOf(paymentsHelper.getPayments()) }
+
     PaymentsScreen(
-       items = listOf(
-           PaymentsItem(
-               title = "Walmart",
-               whoPaid = Person(name = "Josh"),
-               payment = 1.22,
-           ),
-           PaymentsItem(
-               title = "Allo",
-               whoPaid = Person(name = "Kylee"),
-               payment = 60.22,
-           )
-       )
+        items = items,
+        setItems = {
+            paymentsHelper.setPayments(it)
+            items = it
+        },
     )
 }

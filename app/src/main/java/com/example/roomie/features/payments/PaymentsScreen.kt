@@ -1,8 +1,6 @@
 package com.example.roomie.features.payments
 
 import android.app.DatePickerDialog
-import android.widget.DatePicker
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -25,7 +23,6 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -50,23 +47,16 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
-import androidx.compose.ui.window.Popup
-import androidx.compose.ui.window.PopupProperties
-import androidx.core.text.isDigitsOnly
 import com.example.roomie.domain.payments.PaymentsItem
 import com.example.roomie.domain.people.PeopleHelper
-import com.example.roomie.domain.people.Person
-import java.lang.StringBuilder
-import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PaymentsScreen(
     items: List<PaymentsItem>,
+    setItems: (items: List<PaymentsItem>) -> Unit,
 ) {
     var isEditOpen by remember { mutableStateOf(false) }
 
@@ -79,7 +69,20 @@ fun PaymentsScreen(
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             items(items.size) {
-                PaymentsCard(item = items[it])
+                PaymentsCard(
+                    item = items[it],
+                    onDelete = { item ->
+                        setItems(items - item)
+                        isEditOpen = false
+                    },
+                    onSave = { item ->
+                        val newList = items.toMutableList()
+                        newList.removeAt(it)
+                        newList.add(it, item)
+                        setItems(newList)
+                        isEditOpen = false
+                    }
+                )
             }
         }
 
@@ -107,10 +110,9 @@ fun PaymentsScreen(
 
     if (isEditOpen) {
         EditPayment(
-            item = PaymentsItem(),
-            onClose = {
-                isEditOpen = false
-            },
+            onClose = { isEditOpen = false },
+            onDelete = {},
+            onSave = { setItems(items + it) }
         )
     }
 }
@@ -118,6 +120,8 @@ fun PaymentsScreen(
 @Composable
 fun PaymentsCard(
     item: PaymentsItem,
+    onDelete: (item: PaymentsItem) -> Unit,
+    onSave: (item: PaymentsItem) -> Unit,
 ) {
 
     var isEditOpen by remember { mutableStateOf(false) }
@@ -172,7 +176,7 @@ fun PaymentsCard(
             Text(
                 modifier = Modifier
                     .weight(0.2f),
-                text = "$" + item.payment.toString(),
+                text = String.format("$%.2f", item.payment),
                 fontWeight = FontWeight.ExtraBold,
                 fontSize = 20.sp,
             )
@@ -180,10 +184,10 @@ fun PaymentsCard(
 
         if (isEditOpen) {
             EditPayment(
-                item = item,
-                onClose = {
-                    isEditOpen = false
-                },
+                payment = item,
+                onClose = { isEditOpen = false },
+                onDelete = { onDelete(it) },
+                onSave = { onSave(it) },
             )
         }
     }
@@ -192,10 +196,26 @@ fun PaymentsCard(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditPayment(
-    item: PaymentsItem,
+    payment: PaymentsItem? = null,
     onClose: () -> Unit,
+    onDelete: (item: PaymentsItem) -> Unit,
+    onSave: (item: PaymentsItem) -> Unit,
 ) {
     val people = PeopleHelper(LocalContext.current).getPeople()
+    val item = payment ?: PaymentsItem()
+
+    var selectedPerson by remember { mutableStateOf(item.whoPaid) }
+    var title by remember { mutableStateOf(item.title) }
+    var date by remember { mutableStateOf(item.date) }
+    var amount by remember {
+        mutableStateOf(
+            if (item.payment == 0.0) {
+                ""
+            } else {
+                item.payment.toString()
+            }
+        )
+    }
 
     Dialog(
         onDismissRequest = { onClose() },
@@ -205,7 +225,7 @@ fun EditPayment(
             modifier = Modifier
                 .clip(RoundedCornerShape(10))
                 .background(color = MaterialTheme.colorScheme.background)
-                .size(350.dp, 600.dp)
+                .size(350.dp, 500.dp)
                 .padding(25.dp),
         ) {
 
@@ -218,7 +238,6 @@ fun EditPayment(
                     fontWeight = FontWeight.Bold,
                 )
 
-                var selectedPerson by remember { mutableStateOf(item.whoPaid) }
                 var isExpanded by remember { mutableStateOf(false) }
                 ExposedDropdownMenuBox(
                     expanded = isExpanded,
@@ -253,7 +272,6 @@ fun EditPayment(
                     }
                 }
 
-                var title by remember { mutableStateOf(item.title) }
                 Text(
                     text = "Where was it paid?",
                     fontWeight = FontWeight.Bold,
@@ -270,7 +288,6 @@ fun EditPayment(
                 )
 
                 val datePicker = DatePickerDialog(LocalContext.current)
-                var date by remember { mutableStateOf(item.date) }
                 datePicker.updateDate(date.year, date.monthValue - 1, date.dayOfMonth)
                 datePicker.datePicker.setOnDateChangedListener { _, year, month, day ->
                     date = LocalDate.of(year, month + 1, day)
@@ -294,17 +311,18 @@ fun EditPayment(
                     )
                 }
 
-                var payment by remember { mutableStateOf(String.format("$%.2f", item.payment)) }
                 Text(
                     text = "How much was paid?",
                     fontWeight = FontWeight.Bold,
                 )
                 TextField(
-                    value = payment,
-                    onValueChange = {input ->
-                        if(input.filterNot { it == '$' || it == '.' }.isDigitsOnly()) {
-                        payment = StringBuilder(input.filterNot { it == '$' || it == '.' }).insert(input.length - 3, ".").toString()
-                    } },
+                    value = amount,
+                    onValueChange = {
+                        if ("[0-9]*.?[0-9]?[0-9]?$".toRegex().matches(it)) {
+                            amount = it
+                        }
+                    },
+                    placeholder = { Text("0.00") },
                     singleLine = true,
                     keyboardOptions = KeyboardOptions.Default.copy(
                         keyboardType = KeyboardType.Number,
@@ -331,7 +349,8 @@ fun EditPayment(
                     shape = RoundedCornerShape(25),
                     colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
                     onClick = {
-
+                        onDelete(item)
+                        onClose()
                     }) {
                     Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete")
                 }
@@ -343,8 +362,17 @@ fun EditPayment(
                     shape = RoundedCornerShape(25),
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF07D100)),
                     onClick = {
-
-                    }) {
+                        onSave(
+                            PaymentsItem(
+                                title = title,
+                                whoPaid = selectedPerson,
+                                payment = amount.toDouble(),
+                                date = date,
+                            )
+                        )
+                        onClose()
+                    }
+                ) {
                     Icon(imageVector = Icons.Default.Done, contentDescription = "Save")
                 }
             }
