@@ -1,0 +1,16 @@
+package com.example.roomie.domain.typeAdapters
+
+import com.google.gson.TypeAdapter
+import com.google.gson.stream.JsonReader
+import com.google.gson.stream.JsonWriter
+import java.time.LocalDate
+
+class LocalDateTypeAdapter: TypeAdapter<LocalDate>() {
+    override fun write(jsonWriter: JsonWriter?, localDate: LocalDate?) {
+        jsonWriter?.value(localDate.toString())
+    }
+
+    override fun read(jsonReader: JsonReader?): LocalDate {
+        return LocalDate.parse(jsonReader?.nextString())
+    }
+}
