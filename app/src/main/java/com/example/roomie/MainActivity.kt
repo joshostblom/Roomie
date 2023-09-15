@@ -8,7 +8,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.example.roomie.features.base.BaseScreen
-import com.example.roomie.features.home.HomeScreen
 import com.example.roomie.ui.theme.RoomieTheme
 
 class MainActivity : ComponentActivity() {

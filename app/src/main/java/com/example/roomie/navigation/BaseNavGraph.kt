@@ -7,6 +7,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import com.example.roomie.domain.payments.PaymentsHelper
+import com.example.roomie.domain.people.PeopleHelper
 import com.example.roomie.features.home.HomeScreen
 import com.example.roomie.features.payments.PaymentsScreen
 import com.ramcosta.composedestinations.annotation.Destination
@@ -17,9 +18,14 @@ import com.ramcosta.composedestinations.annotation.RootNavGraph
 @Composable
 fun Home() {
 
+    val context = LocalContext.current
+    val peopleHelper by remember { mutableStateOf(PeopleHelper(context)) }
+    val paymentsHelper by remember { mutableStateOf(PaymentsHelper(context)) }
 
-
-    HomeScreen()
+    HomeScreen(
+        people = peopleHelper.getPeople(),
+        payments = paymentsHelper.getPayments(),
+    )
 }
 
 @RootNavGraph
@@ -27,7 +33,8 @@ fun Home() {
 @Composable
 fun Payments() {
 
-    val paymentsHelper = PaymentsHelper(LocalContext.current)
+    val context = LocalContext.current
+    val paymentsHelper by remember { mutableStateOf (PaymentsHelper(context) )}
     var items by remember { mutableStateOf(paymentsHelper.getPayments()) }
 
     PaymentsScreen(

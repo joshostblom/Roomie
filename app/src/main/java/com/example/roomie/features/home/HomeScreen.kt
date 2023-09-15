@@ -1,26 +1,10 @@
 package com.example.roomie.features.home
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontWeight
 import com.example.roomie.domain.payments.Payment
-import com.example.roomie.domain.people.PeopleHelper
 import com.example.roomie.domain.people.Person
-import com.example.roomie.features.amountOwed.AmountOwed
 import com.example.roomie.features.amountOwed.AmountOwedList
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     people: List<Person>,

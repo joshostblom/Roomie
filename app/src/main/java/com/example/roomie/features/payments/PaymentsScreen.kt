@@ -22,7 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.roomie.domain.payments.Payment
 import com.example.roomie.features.payments.components.EditPayment
-import com.example.roomie.features.payments.components.PaymentsCard
+import com.example.roomie.features.payments.components.PaymentCard
 
 @Composable
 fun PaymentsScreen(
@@ -40,7 +40,7 @@ fun PaymentsScreen(
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             items(items.size) {
-                PaymentsCard(
+                PaymentCard(
                     item = items[it],
                     onDelete = { item ->
                         setItems(items - item)

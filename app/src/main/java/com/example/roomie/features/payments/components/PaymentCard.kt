@@ -31,7 +31,7 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 @Composable
-fun PaymentsCard(
+fun PaymentCard(
     item: Payment,
     onDelete: (item: Payment) -> Unit,
     onSave: (item: Payment) -> Unit,
