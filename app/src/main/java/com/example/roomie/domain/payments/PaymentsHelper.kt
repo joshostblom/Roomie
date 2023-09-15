@@ -13,14 +13,14 @@ class PaymentsHelper(
         .registerTypeAdapter(LocalDate::class.java, LocalDateTypeAdapter())
         .create()
 
-    fun getPayments(): List<PaymentsItem> {
+    fun getPayments(): List<Payment> {
         val sharedPref = context.getSharedPreferences("data", Context.MODE_PRIVATE)
-        val paymentsType = object : TypeToken<List<PaymentsItem>>() {}.type
+        val paymentsType = object : TypeToken<List<Payment>>() {}.type
         return gson.fromJson(sharedPref.getString("payments", ""), paymentsType) ?: emptyList()
     }
 
     fun setPayments(
-        payments: List<PaymentsItem>,
+        payments: List<Payment>,
     ) {
         val sharedPref = context.getSharedPreferences("data", Context.MODE_PRIVATE)
         sharedPref.edit().putString("payments", gson.toJson(payments)).apply()
