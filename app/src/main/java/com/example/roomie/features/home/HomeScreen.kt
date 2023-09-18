@@ -3,7 +3,7 @@ package com.example.roomie.features.home
 import androidx.compose.runtime.Composable
 import com.example.roomie.domain.payments.Payment
 import com.example.roomie.domain.people.Person
-import com.example.roomie.features.amountOwed.AmountOwedList
+import com.example.roomie.features.monthlySummary.MonthlySummary
 
 @Composable
 fun HomeScreen(
@@ -11,7 +11,7 @@ fun HomeScreen(
     payments: List<Payment>,
 ) {
 
-    AmountOwedList(
+    MonthlySummary(
         people = people,
         payments = payments,
     )

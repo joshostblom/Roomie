@@ -7,8 +7,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.example.roomie.features.navBar.HomeNavBarItem
-import com.example.roomie.features.navBar.ItemsNavBarItem
+import com.example.roomie.features.navBar.PaymentsNavBarItem
 import com.example.roomie.features.navBar.NavBar
+import com.example.roomie.features.navBar.PayRentNavBarItem
 import com.example.roomie.navigation.NavGraphs
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.rememberNavHostEngine
@@ -25,7 +26,8 @@ fun BaseScreen() {
                 navController = navController,
                 items = listOf(
                     HomeNavBarItem(navController),
-                    ItemsNavBarItem(navController),
+                    PayRentNavBarItem(navController),
+                    PaymentsNavBarItem(navController),
                 )
             )
         }

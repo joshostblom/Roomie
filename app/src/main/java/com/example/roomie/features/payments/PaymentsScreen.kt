@@ -2,6 +2,7 @@ package com.example.roomie.features.payments
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -19,7 +20,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.roomie.domain.payments.Payment
 import com.example.roomie.features.payments.components.EditPayment
 import com.example.roomie.features.payments.components.PaymentCard
@@ -34,26 +37,41 @@ fun PaymentsScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(15.dp)
+            .padding(10.dp)
     ) {
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(10.dp),
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
         ) {
-            items(items.size) {
-                PaymentCard(
-                    item = items[it],
-                    onDelete = { item ->
-                        setItems(items - item)
-                        isEditOpen = false
-                    },
-                    onSave = { item ->
-                        val newList = items.toMutableList()
-                        newList.removeAt(it)
-                        newList.add(it, item)
-                        setItems(newList)
-                        isEditOpen = false
-                    }
-                )
+
+            Text(
+                modifier = Modifier
+                    .padding(bottom = 5.dp),
+                text = "Payments",
+                fontWeight = FontWeight.Bold,
+                fontSize = 30.sp,
+            )
+
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+            ) {
+                items(items.size) {
+                    PaymentCard(
+                        item = items[it],
+                        onDelete = { item ->
+                            setItems(items - item)
+                            isEditOpen = false
+                        },
+                        onSave = { item ->
+                            val newList = items.toMutableList()
+                            newList.removeAt(it)
+                            newList.add(it, item)
+                            setItems(newList)
+                            isEditOpen = false
+                        }
+                    )
+                }
             }
         }
 
