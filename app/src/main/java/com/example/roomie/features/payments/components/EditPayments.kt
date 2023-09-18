@@ -44,6 +44,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.example.roomie.domain.payments.Payment
 import com.example.roomie.domain.people.PeopleHelper
+import com.example.roomie.ui.theme.DarkGreen
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -215,7 +216,7 @@ fun EditPayment(
                         .weight(0.5f)
                         .fillMaxHeight(),
                     shape = RoundedCornerShape(25),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF07D100)),
+                    colors = ButtonDefaults.buttonColors(containerColor = DarkGreen),
                     onClick = {
                         onSave(
                             Payment(

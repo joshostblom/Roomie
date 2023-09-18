@@ -27,6 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.roomie.domain.payments.Payment
+import com.example.roomie.ui.theme.BackgroundGrey
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
@@ -44,7 +45,7 @@ fun PaymentCard(
             .fillMaxWidth()
             .height(75.dp)
             .clip(RoundedCornerShape(10.dp))
-            .background(color = Color(0x3BA3A3A3))
+            .background(color = BackgroundGrey)
             .clickable {
                 isEditOpen = true
             }
