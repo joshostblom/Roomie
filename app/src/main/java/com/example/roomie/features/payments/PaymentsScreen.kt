@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import com.example.roomie.domain.payments.Payment
 import com.example.roomie.features.payments.components.EditPayment
 import com.example.roomie.features.payments.components.PaymentCard
+import com.example.roomie.features.shared.Header
 
 @Composable
 fun PaymentsScreen(
@@ -45,13 +46,7 @@ fun PaymentsScreen(
                 .fillMaxSize()
         ) {
 
-            Text(
-                modifier = Modifier
-                    .padding(bottom = 5.dp),
-                text = "Payments",
-                fontWeight = FontWeight.Bold,
-                fontSize = 30.sp,
-            )
+            Header("Payments")
 
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(10.dp),

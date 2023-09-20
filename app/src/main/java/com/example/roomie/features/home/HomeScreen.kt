@@ -1,9 +1,15 @@
 package com.example.roomie.features.home
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import com.example.roomie.domain.payments.Payment
+import com.example.roomie.domain.people.PeopleHelper
 import com.example.roomie.domain.people.Person
 import com.example.roomie.features.monthlySummary.MonthlySummary
+import com.example.roomie.features.settings.Settings
 
 @Composable
 fun HomeScreen(
@@ -11,10 +17,24 @@ fun HomeScreen(
     payments: List<Payment>,
 ) {
 
-    MonthlySummary(
-        people = people,
-        payments = payments,
-    )
+    Column (
+        modifier = Modifier.fillMaxSize(),
+    ) {
+
+        MonthlySummary(
+            people = people,
+            payments = payments,
+        )
+
+        val peopleHelper = PeopleHelper(LocalContext.current)
+
+        Settings(
+            people = people,
+            setPeople = { people ->
+                peopleHelper.setPeople(people)
+            }
+        )
+    }
 
 //    Column {
 //        Column {

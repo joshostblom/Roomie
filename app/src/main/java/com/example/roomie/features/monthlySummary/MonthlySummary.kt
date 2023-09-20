@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.sp
 import com.example.roomie.domain.calculations.CalculationsHelper
 import com.example.roomie.domain.payments.Payment
 import com.example.roomie.domain.people.Person
+import com.example.roomie.features.shared.Header
 import com.example.roomie.ui.theme.BackgroundGrey
 import com.example.roomie.ui.theme.DarkGreen
 import java.time.LocalDate
@@ -40,13 +41,7 @@ fun MonthlySummary(
             .fillMaxWidth()
             .padding(10.dp)
     ) {
-        Text(
-            modifier = Modifier
-                .padding(bottom = 5.dp),
-            text = "Monthly Summary",
-            fontWeight = FontWeight.Bold,
-            fontSize = 30.sp,
-        )
+        Header("Monthly Summary")
 
         Box(
             modifier = Modifier
