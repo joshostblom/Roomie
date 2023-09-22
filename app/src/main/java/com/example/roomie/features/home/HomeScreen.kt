@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.example.roomie.domain.payments.Payment
-import com.example.roomie.domain.people.PeopleHelper
+import com.example.roomie.domain.people.PeopleDatabase
 import com.example.roomie.domain.people.Person
 import com.example.roomie.features.monthlySummary.MonthlySummary
 import com.example.roomie.features.settings.Settings
@@ -26,12 +26,12 @@ fun HomeScreen(
             payments = payments,
         )
 
-        val peopleHelper = PeopleHelper(LocalContext.current)
+        val peopleDatabase = PeopleDatabase(LocalContext.current)
 
         Settings(
             people = people,
             setPeople = { people ->
-                peopleHelper.setPeople(people)
+                peopleDatabase.setPeople(people)
             }
         )
     }

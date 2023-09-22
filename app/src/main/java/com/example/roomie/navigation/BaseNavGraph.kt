@@ -6,8 +6,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
-import com.example.roomie.domain.payments.PaymentsHelper
-import com.example.roomie.domain.people.PeopleHelper
+import com.example.roomie.domain.payments.PaymentDatabase
+import com.example.roomie.domain.people.PeopleDatabase
 import com.example.roomie.features.home.HomeScreen
 import com.example.roomie.features.payRent.PayRentScreen
 import com.example.roomie.features.payments.PaymentsScreen
@@ -20,12 +20,12 @@ import com.ramcosta.composedestinations.annotation.RootNavGraph
 fun HomeDestination() {
 
     val context = LocalContext.current
-    val peopleHelper by remember { mutableStateOf(PeopleHelper(context)) }
-    val paymentsHelper by remember { mutableStateOf(PaymentsHelper(context)) }
+    val peopleDatabase by remember { mutableStateOf(PeopleDatabase(context)) }
+    val paymentDatabase by remember { mutableStateOf(PaymentDatabase(context)) }
 
     HomeScreen(
-        people = peopleHelper.getPeople(),
-        payments = paymentsHelper.getPayments(),
+        people = peopleDatabase.getPeople(),
+        payments = paymentDatabase.getPayments(),
     )
 }
 
@@ -42,13 +42,13 @@ fun PayRentDestination() {
 fun PaymentsDestination() {
 
     val context = LocalContext.current
-    val paymentsHelper by remember { mutableStateOf (PaymentsHelper(context) )}
-    var items by remember { mutableStateOf(paymentsHelper.getPayments()) }
+    val paymentDatabase by remember { mutableStateOf (PaymentDatabase(context) )}
+    var items by remember { mutableStateOf(paymentDatabase.getPayments()) }
 
     PaymentsScreen(
         items = items,
         setItems = {
-            paymentsHelper.setPayments(it)
+            paymentDatabase.setPayments(it)
             items = it
         },
     )

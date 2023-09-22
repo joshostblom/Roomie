@@ -5,7 +5,7 @@ import android.content.Context.MODE_PRIVATE
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-class PeopleHelper(
+class PeopleDatabase(
     private val context: Context,
 ) {
     fun getPeople(): List<Person> {
