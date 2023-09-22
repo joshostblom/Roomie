@@ -82,7 +82,6 @@ fun EditPayment(
             modifier = Modifier
                 .clip(RoundedCornerShape(10))
                 .background(color = MaterialTheme.colorScheme.background)
-//                .size(350.dp, 500.dp)
                 .padding(25.dp),
         ) {
 
