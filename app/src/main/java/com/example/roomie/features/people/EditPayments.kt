@@ -1,4 +1,4 @@
-package com.example.roomie.features.payments.components
+package com.example.roomie.features.people
 
 import android.app.DatePickerDialog
 import androidx.compose.foundation.background
@@ -44,6 +44,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.roomie.domain.payments.Payment
 import com.example.roomie.domain.people.PeopleDatabase
+import com.example.roomie.features.payments.components.PaymentHelper
 import com.example.roomie.ui.theme.DarkGreen
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -128,7 +129,9 @@ fun EditPayment(
                             }
                         }
                     }
+                }
 
+                item {
                     Text(
                         text = "Where was it paid?",
                         fontWeight = FontWeight.Bold,
@@ -143,7 +146,9 @@ fun EditPayment(
                             )
                         ),
                     )
+                }
 
+                item {
                     val datePicker = DatePickerDialog(LocalContext.current)
                     datePicker.updateDate(date.year, date.monthValue - 1, date.dayOfMonth)
                     datePicker.datePicker.setOnDateChangedListener { _, year, month, day ->
@@ -168,7 +173,9 @@ fun EditPayment(
                                 .format(date),
                         )
                     }
+                }
 
+                item {
                     Text(
                         text = "How much was paid?",
                         fontWeight = FontWeight.Bold,

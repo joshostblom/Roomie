@@ -4,12 +4,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import com.example.roomie.domain.payments.Payment
-import com.example.roomie.domain.people.PeopleDatabase
 import com.example.roomie.domain.people.Person
 import com.example.roomie.features.monthlySummary.MonthlySummary
-import com.example.roomie.features.settings.Settings
 
 @Composable
 fun HomeScreen(
@@ -17,7 +14,7 @@ fun HomeScreen(
     payments: List<Payment>,
 ) {
 
-    Column (
+    Column(
         modifier = Modifier.fillMaxSize(),
     ) {
 
@@ -25,61 +22,5 @@ fun HomeScreen(
             people = people,
             payments = payments,
         )
-
-        val peopleDatabase = PeopleDatabase(LocalContext.current)
-
-        Settings(
-            people = people,
-            setPeople = { people ->
-                peopleDatabase.setPeople(people)
-            }
-        )
     }
-
-//    Column {
-//        Column {
-//            Text(
-//                text = "People",
-//                fontWeight = FontWeight.Bold
-//            )
-//
-//            LazyColumn {
-//                items(people.size) { index ->
-//                    Column {
-//                        Text(
-//                            text = people[index].name,
-//                        )
-//                        Text(
-//                            text = people[index].color.toString(),
-//                        )
-//                    }
-//                }
-//            }
-//        }
-//
-//        var personName by remember { mutableStateOf("") }
-//
-//        Row {
-//            TextField(
-//                value = personName,
-//                onValueChange = { personName = it }
-//            )
-//
-//            Button(
-//                onClick = {
-//                    peopleHelper.setPeople(
-//                        people + Person(
-//                            name = personName,
-//                        )
-//                    )
-//
-//                    people = peopleHelper.getPeople()
-//                }
-//            ) {
-//                Text(
-//                    text = "Add Person"
-//                )
-//            }
-//        }
-//    }
 }

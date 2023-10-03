@@ -27,6 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.roomie.domain.payments.Payment
+import com.example.roomie.features.people.EditPayment
 import com.example.roomie.ui.theme.BackgroundGrey
 import java.time.format.DateTimeFormatter
 import java.util.Locale

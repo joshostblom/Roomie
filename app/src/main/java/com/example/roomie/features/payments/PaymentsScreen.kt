@@ -20,11 +20,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.roomie.domain.payments.Payment
-import com.example.roomie.features.payments.components.EditPayment
+import com.example.roomie.features.people.EditPayment
 import com.example.roomie.features.payments.components.PaymentCard
 import com.example.roomie.features.shared.Header
 

@@ -63,9 +63,9 @@ fun Settings(
                     )
                 }
 
-                items(people.count()) {
+                items(people.count()) {index ->
                     PersonCard(
-                        person = people[it],
+                        person = people[index],
                         onSave = { setPeople(people + it) },
                         onDelete = { setPeople(people - it) },
                     )

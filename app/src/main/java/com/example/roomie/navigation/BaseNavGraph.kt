@@ -11,6 +11,7 @@ import com.example.roomie.domain.people.PeopleDatabase
 import com.example.roomie.features.home.HomeScreen
 import com.example.roomie.features.payRent.PayRentScreen
 import com.example.roomie.features.payments.PaymentsScreen
+import com.example.roomie.features.settings.Settings
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 
@@ -18,7 +19,6 @@ import com.ramcosta.composedestinations.annotation.RootNavGraph
 @Destination
 @Composable
 fun HomeDestination() {
-
     val context = LocalContext.current
     val peopleDatabase by remember { mutableStateOf(PeopleDatabase(context)) }
     val paymentDatabase by remember { mutableStateOf(PaymentDatabase(context)) }
@@ -42,14 +42,32 @@ fun PayRentDestination() {
 fun PaymentsDestination() {
 
     val context = LocalContext.current
-    val paymentDatabase by remember { mutableStateOf (PaymentDatabase(context) )}
-    var items by remember { mutableStateOf(paymentDatabase.getPayments()) }
+    val paymentDatabase by remember { mutableStateOf(PaymentDatabase(context)) }
+    var payments by remember { mutableStateOf(paymentDatabase.getPayments()) }
 
     PaymentsScreen(
-        items = items,
+        items = payments,
         setItems = {
             paymentDatabase.setPayments(it)
-            items = it
+            payments = it
+        },
+    )
+}
+
+@RootNavGraph
+@Destination
+@Composable
+fun MenuDestination() {
+
+    val context = LocalContext.current
+    val peopleDatabase by remember { mutableStateOf(PeopleDatabase(context)) }
+    var people by remember { mutableStateOf(peopleDatabase.getPeople()) }
+
+    Settings(
+        people = people,
+        setPeople = {
+            peopleDatabase.setPeople(it)
+            people = it
         },
     )
 }

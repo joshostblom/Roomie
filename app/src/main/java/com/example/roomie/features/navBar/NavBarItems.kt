@@ -4,9 +4,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavController
 import com.example.roomie.navigation.destinations.HomeDestinationDestination
+import com.example.roomie.navigation.destinations.MenuDestinationDestination
 import com.example.roomie.navigation.destinations.PayRentDestinationDestination
 import com.example.roomie.navigation.destinations.PaymentsDestinationDestination
 
@@ -47,5 +49,16 @@ class PaymentsNavBarItem(
     route = PaymentsDestinationDestination.route,
     onClick = {
         navController.navigate(PaymentsDestinationDestination.route)
+    }
+)
+
+class MenuNavBarItem(
+    navController: NavController
+) : NavBarItem(
+    title = "Menu",
+    icon = Icons.Default.Menu,
+    route = MenuDestinationDestination.route,
+    onClick = {
+        navController.navigate(MenuDestinationDestination.route)
     }
 )
