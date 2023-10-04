@@ -1,4 +1,4 @@
-package com.example.roomie.features.payments.components
+package com.example.roomie.features.payments
 
 import com.example.roomie.domain.payments.Payment
 import com.example.roomie.domain.people.Person

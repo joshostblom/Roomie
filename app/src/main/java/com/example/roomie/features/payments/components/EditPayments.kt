@@ -1,4 +1,4 @@
-package com.example.roomie.features.people
+package com.example.roomie.features.payments.components
 
 import android.app.DatePickerDialog
 import androidx.compose.foundation.background
@@ -44,7 +44,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.roomie.domain.payments.Payment
 import com.example.roomie.domain.people.PeopleDatabase
-import com.example.roomie.features.payments.components.PaymentHelper
+import com.example.roomie.features.payments.PaymentHelper
 import com.example.roomie.ui.theme.DarkGreen
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
