@@ -100,8 +100,8 @@ fun PaymentCard(
             EditPayment(
                 payment = item,
                 onClose = { isEditOpen = false },
-                onDelete = { onDelete(it) },
-                onSave = { onSave(it) },
+                onDelete = onDelete,
+                onSave = onSave,
             )
         }
     }

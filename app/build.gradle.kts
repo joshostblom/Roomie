@@ -75,5 +75,6 @@ dependencies {
 
     //Tools
     implementation("com.google.code.gson:gson:2.8.9")
+    implementation("com.github.skydoves:colorpicker-compose:1.0.5")
 
 }

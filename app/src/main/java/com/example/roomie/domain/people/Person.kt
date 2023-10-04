@@ -4,5 +4,5 @@ import androidx.compose.ui.graphics.Color
 
 data class Person(
     val name: String = "",
-    val color: Color = Color.Gray,
+    val color: Color = Color.White,
 )
