@@ -4,11 +4,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,6 +27,7 @@ import com.example.roomie.domain.people.Person
 import com.example.roomie.features.shared.Header
 import com.example.roomie.ui.theme.BackgroundGrey
 import com.example.roomie.ui.theme.DarkGreen
+import com.example.roomie.ui.theme.SubtleRed
 import java.time.LocalDate
 
 @Composable
@@ -50,16 +54,22 @@ fun MonthlySummary(
                 .background(color = BackgroundGrey)
                 .padding(10.dp),
         ) {
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(10.dp)
-            ) {
+            LazyColumn() {
                 items(people.size) {
-
-                    Text(
-                        text = people[it].name,
-                        fontSize = 25.sp,
-                        fontWeight = FontWeight.SemiBold,
-                    )
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(5.dp))
+                            .background(color = people[it].color)
+                    ) {
+                        Text(
+                            modifier = Modifier
+                                .align(Alignment.Center),
+                            text = people[it].name,
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.SemiBold,
+                        )
+                    }
 
                     payments.filter { payment ->
                         payment.whoPaid == people[it] && payment.date.monthValue == LocalDate.now().monthValue
@@ -76,7 +86,7 @@ fun MonthlySummary(
                         title = "Carried Over From Last Month",
                     )
 
-                    Divider()
+                    Divider(color = Color.Black)
 
                     PaymentListItem(
                         amount = calculationsHelper.getTotalSpent(
@@ -84,14 +94,25 @@ fun MonthlySummary(
                         ),
                         title = "Total Spent",
                     )
+
+                    Spacer(modifier = Modifier.padding(10.dp))
                 }
 
                 item {
-                    Text(
-                        text = "Total",
-                        fontSize = 25.sp,
-                        fontWeight = FontWeight.SemiBold,
-                    )
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(5.dp))
+                            .background(color = MaterialTheme.colorScheme.primary)
+                    ) {
+                        Text(
+                            modifier = Modifier
+                                .align(Alignment.Center),
+                            text = "Total",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.SemiBold,
+                        )
+                    }
                     PaymentListItem(
                         amount = calculationsHelper.getTotalSpent(
                             month = LocalDate.now(),
@@ -108,7 +129,7 @@ fun MonthlySummary(
                     PaymentListItem(
                         amount = totalOwed,
                         title = people[it].name + " Owes",
-                        color = if (totalOwed > 0) Color.Red else DarkGreen
+                        color = if (totalOwed > 0) SubtleRed else DarkGreen
                     )
                 }
             }
@@ -133,11 +154,27 @@ fun PaymentListItem(
             text = title ?: payment?.title!!,
         )
 
-        Text(
-            modifier = Modifier
-                .align(Alignment.CenterEnd),
-            text = String.format("$%.2f", amount ?: payment?.payment),
-            color = color ?: Color.Black,
-        )
+        if (color != null) {
+            Box(
+                modifier = Modifier
+                    .padding(vertical = 1.dp)
+                    .clip(RoundedCornerShape(25))
+                    .background(color = color)
+                    .align(Alignment.CenterEnd)
+                    .padding(horizontal = 5.dp),
+            ) {
+                Text(
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd),
+                    text = String.format("$%.2f", amount ?: payment?.payment),
+                )
+            }
+        } else {
+            Text(
+                modifier = Modifier
+                    .align(Alignment.CenterEnd),
+                text = String.format("$%.2f", amount ?: payment?.payment),
+            )
+        }
     }
 }

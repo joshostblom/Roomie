@@ -6,6 +6,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
+import com.example.roomie.domain.homeConfiguration.HomeConfiguration
+import com.example.roomie.domain.homeConfiguration.HomeConfigurationDatabase
 import com.example.roomie.domain.payments.PaymentDatabase
 import com.example.roomie.domain.people.PeopleDatabase
 import com.example.roomie.features.home.HomeScreen
@@ -62,6 +64,8 @@ fun MenuDestination() {
     val context = LocalContext.current
     val peopleDatabase by remember { mutableStateOf(PeopleDatabase(context)) }
     var people by remember { mutableStateOf(peopleDatabase.getPeople()) }
+    val homeConfigDatabase by remember { mutableStateOf(HomeConfigurationDatabase(context)) }
+    var rentCost = homeConfigDatabase.getConfiguration().rentCost
 
     Settings(
         people = people,
@@ -69,5 +73,12 @@ fun MenuDestination() {
             peopleDatabase.setPeople(it)
             people = it
         },
+        rentCost = rentCost,
+        setRentCost = {
+            homeConfigDatabase.setConfiguration(HomeConfiguration(
+                rentCost = it,
+            ))
+            rentCost = it
+        }
     )
 }

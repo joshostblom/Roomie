@@ -37,6 +37,7 @@ import androidx.compose.ui.window.Dialog
 import com.example.roomie.domain.people.Person
 import com.example.roomie.features.people.PeopleHelper
 import com.example.roomie.ui.theme.DarkGreen
+import com.example.roomie.ui.theme.SubtleRed
 import com.github.skydoves.colorpicker.compose.ColorPickerController
 import com.github.skydoves.colorpicker.compose.HsvColorPicker
 
@@ -90,6 +91,7 @@ fun EditPerson(
                     )
                     HsvColorPicker(
                         modifier = Modifier
+                            .padding(top = 5.dp)
                             .height(250.dp)
                             .align(Alignment.Center),
                         controller = ColorPickerController(),
@@ -120,7 +122,7 @@ fun EditPerson(
                                 .weight(0.5f)
                                 .fillMaxHeight(),
                             shape = RoundedCornerShape(25),
-                            colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
+                            colors = ButtonDefaults.buttonColors(containerColor = SubtleRed),
                             onClick = {
                                 onDelete(item)
                                 onClose()

@@ -46,6 +46,7 @@ import com.example.roomie.domain.payments.Payment
 import com.example.roomie.domain.people.PeopleDatabase
 import com.example.roomie.features.payments.PaymentHelper
 import com.example.roomie.ui.theme.DarkGreen
+import com.example.roomie.ui.theme.SubtleRed
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -108,10 +109,8 @@ fun EditPayment(
                             readOnly = true,
                             singleLine = true,
                             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded) },
-                            colors = TextFieldDefaults.textFieldColors(
-                                containerColor = Color(
-                                    0x3BA3A3A3
-                                )
+                            colors = TextFieldDefaults.colors(
+                                unfocusedContainerColor = Color(0x3BA3A3A3)
                             ),
                         )
 
@@ -140,10 +139,8 @@ fun EditPayment(
                         value = title,
                         onValueChange = { title = it },
                         singleLine = true,
-                        colors = TextFieldDefaults.textFieldColors(
-                            containerColor = Color(
-                                0x3BA3A3A3
-                            )
+                        colors = TextFieldDefaults.colors(
+                            unfocusedContainerColor = Color(0x3BA3A3A3)
                         ),
                     )
                 }
@@ -192,10 +189,8 @@ fun EditPayment(
                         keyboardOptions = KeyboardOptions.Default.copy(
                             keyboardType = KeyboardType.Number,
                         ),
-                        colors = TextFieldDefaults.textFieldColors(
-                            containerColor = Color(
-                                0x3BA3A3A3
-                            )
+                        colors = TextFieldDefaults.colors(
+                            unfocusedContainerColor = Color(0x3BA3A3A3)
                         ),
                     )
                 }
@@ -203,7 +198,7 @@ fun EditPayment(
                 items(error.count()) { index ->
                     Text(
                         text = error[index],
-                        color = Color.Red,
+                        color = SubtleRed,
                         fontSize = 12.sp,
                     )
                 }
@@ -221,7 +216,7 @@ fun EditPayment(
                                 .weight(0.5f)
                                 .fillMaxHeight(),
                             shape = RoundedCornerShape(25),
-                            colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
+                            colors = ButtonDefaults.buttonColors(containerColor = SubtleRed),
                             onClick = {
                                 onDelete(item)
                                 onClose()

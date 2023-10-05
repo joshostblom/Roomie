@@ -62,7 +62,7 @@ fun PaymentCard(
                 modifier = Modifier
                     .clip(CircleShape)
                     .size(40.dp)
-                    .background(color = MaterialTheme.colorScheme.secondary)
+                    .background(color = item.whoPaid.color)
             ) {
                 Text(
                     modifier = Modifier.align(Alignment.Center),
