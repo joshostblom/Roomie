@@ -35,7 +35,16 @@ fun HomeDestination() {
 @Destination
 @Composable
 fun PayRentDestination() {
-    PayRentScreen()
+    val context = LocalContext.current
+    val peopleDatabase by remember { mutableStateOf(PeopleDatabase(context)) }
+    val paymentDatabase by remember { mutableStateOf(PaymentDatabase(context)) }
+    val homeConfigDatabase by remember { mutableStateOf(HomeConfigurationDatabase(context)) }
+
+    PayRentScreen(
+        payments = paymentDatabase.getPayments(),
+        people = peopleDatabase.getPeople(),
+        rentCost = homeConfigDatabase.getConfiguration().rentCost,
+    )
 }
 
 @RootNavGraph

@@ -36,9 +36,11 @@ class CalculationsHelper(
             thesePayments = thesePayments.filter { people.contains(it.whoPaid) }
         }
         if (month != null) {
-            thesePayments = thesePayments.filter { it.date.monthValue == month.monthValue && it.date.year == month.year}
+            thesePayments =
+                thesePayments.filter { it.date.monthValue == month.monthValue && it.date.year == month.year }
         } else if (notMonth != null) {
-            thesePayments = thesePayments.filterNot { it.date.monthValue == notMonth.monthValue && it.date.year == notMonth.year }
+            thesePayments =
+                thesePayments.filterNot { it.date.monthValue == notMonth.monthValue && it.date.year == notMonth.year }
         }
         thesePayments.forEach {
             total += it.payment
@@ -46,5 +48,11 @@ class CalculationsHelper(
         return total
     }
 
-
+    fun getRentAmountOwed(
+        person: Person,
+        rentCost: Double,
+    ) : Double {
+        val amountOwed = getAmountOwed(person)
+        return rentCost / people.count() + amountOwed
+    }
 }
