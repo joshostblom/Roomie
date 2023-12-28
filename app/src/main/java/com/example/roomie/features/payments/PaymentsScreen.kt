@@ -21,7 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.roomie.domain.payments.Payment
+import com.example.roomie.data.models.Payment
 import com.example.roomie.features.payments.components.EditPayment
 import com.example.roomie.features.payments.components.PaymentCard
 import com.example.roomie.features.shared.Header

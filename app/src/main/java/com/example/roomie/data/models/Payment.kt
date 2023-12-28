@@ -1,6 +1,5 @@
-package com.example.roomie.domain.payments
+package com.example.roomie.data.models
 
-import com.example.roomie.domain.people.Person
 import java.time.LocalDate
 
 data class Payment (

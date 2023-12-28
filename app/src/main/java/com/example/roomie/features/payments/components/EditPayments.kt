@@ -42,7 +42,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import com.example.roomie.domain.payments.Payment
+import com.example.roomie.data.models.Payment
 import com.example.roomie.domain.people.PeopleDatabase
 import com.example.roomie.features.payments.PaymentHelper
 import com.example.roomie.ui.theme.DarkGreen

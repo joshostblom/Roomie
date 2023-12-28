@@ -12,7 +12,10 @@ import com.example.roomie.ui.theme.RoomieTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        Factory.shared().setApplicationContext(this)
         super.onCreate(savedInstanceState)
+
         setContent {
             RoomieTheme {
                 Surface(

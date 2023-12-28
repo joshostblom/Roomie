@@ -21,7 +21,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.roomie.domain.people.Person
+import com.example.roomie.data.models.Person
 
 @Composable
 fun PersonCard(

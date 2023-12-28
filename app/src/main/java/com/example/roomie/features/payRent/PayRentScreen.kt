@@ -10,16 +10,27 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.roomie.domain.calculations.CalculationsHelper
-import com.example.roomie.domain.payments.Payment
-import com.example.roomie.domain.people.Person
+import com.example.roomie.data.models.Payment
+import com.example.roomie.data.models.Person
 import com.example.roomie.features.shared.Header
 
 @Composable
 fun PayRentScreen(
     payments: List<Payment>,
     people: List<Person>,
+//    payRent: () -> Unit,
     rentCost: Double,
 ) {
+    val currentPerson = people.first()
+    val calcHelper = CalculationsHelper(
+        payments = payments,
+        people = people,
+    )
+    val rentOwed = calcHelper.getRentAmountOwed(
+        person = currentPerson,
+        rentCost = rentCost,
+    )
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -27,41 +38,20 @@ fun PayRentScreen(
     ) {
         Header("Pay Rent")
 
-        val calcHelper = CalculationsHelper(
-            payments = payments,
-            people = people,
-        )
-        val amountOwed = calcHelper.getRentAmountOwed(
-            person = people.first(),
-            rentCost = rentCost,
-        )
-
         Row() {
-            Text(
-                text = "Rent due: "
-            )
-
-            Text(
-                text = rentCost.toString()
-            )
+            Text("Rent due: ")
+            Text(rentCost.toString())
         }
 
         Row() {
-            Text(
-                text = "Amount owed: "
-            )
-
-            Text(
-                text = amountOwed.toString()
-            )
+            Text("Amount owed: ")
+            Text(rentOwed.toString())
         }
 
         Button(
-            onClick = { /*TODO*/ }
+            onClick = {} //payRent
         ) {
-            Text(
-                text = "Pay Rent"
-            )
+            Text("Pay Rent")
         }
     }
 }

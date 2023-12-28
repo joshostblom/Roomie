@@ -1,7 +1,7 @@
 package com.example.roomie.domain.calculations
 
-import com.example.roomie.domain.payments.Payment
-import com.example.roomie.domain.people.Person
+import com.example.roomie.data.models.Payment
+import com.example.roomie.data.models.Person
 import java.time.LocalDate
 
 class CalculationsHelper(

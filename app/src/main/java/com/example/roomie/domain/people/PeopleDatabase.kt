@@ -2,6 +2,7 @@ package com.example.roomie.domain.people
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
+import com.example.roomie.data.models.Person
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 

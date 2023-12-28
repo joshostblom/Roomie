@@ -1,6 +1,6 @@
 package com.example.roomie.features.people
 
-import com.example.roomie.domain.people.Person
+import com.example.roomie.data.models.Person
 
 class PeopleHelper {
     companion object {

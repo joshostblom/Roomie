@@ -6,7 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
-import com.example.roomie.domain.homeConfiguration.HomeConfiguration
+import com.example.roomie.data.models.HomeConfiguration
 import com.example.roomie.domain.homeConfiguration.HomeConfigurationDatabase
 import com.example.roomie.domain.payments.PaymentDatabase
 import com.example.roomie.domain.people.PeopleDatabase
@@ -84,9 +84,11 @@ fun MenuDestination() {
         },
         rentCost = rentCost,
         setRentCost = {
-            homeConfigDatabase.setConfiguration(HomeConfiguration(
+            homeConfigDatabase.setConfiguration(
+                HomeConfiguration(
                 rentCost = it,
-            ))
+            )
+            )
             rentCost = it
         }
     )

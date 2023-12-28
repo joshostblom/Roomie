@@ -20,8 +20,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.roomie.domain.calculations.CalculationsHelper
-import com.example.roomie.domain.payments.Payment
-import com.example.roomie.domain.people.Person
+import com.example.roomie.data.models.Payment
+import com.example.roomie.data.models.Person
 import com.example.roomie.features.shared.Header
 import com.example.roomie.ui.theme.BackgroundGrey
 import com.example.roomie.ui.theme.DarkGreen
@@ -74,15 +74,6 @@ fun MonthlySummary(
                     }.forEach { payment ->
                         PaymentListItem(payment = payment)
                     }
-
-                    val carryOver = calculationsHelper.getAmountOwed(
-                        person = people[it],
-                        notMonth = LocalDate.now()
-                    )
-                    PaymentListItem(
-                        amount = carryOver * -1,
-                        title = "Carried Over From Last Month",
-                    )
 
                     Divider(color = Color.Black)
 

@@ -1,8 +1,9 @@
 package com.example.roomie.domain.payments
 
 import android.content.Context
-import com.example.roomie.domain.people.Person
+import com.example.roomie.data.models.Person
 import com.example.roomie.domain.typeAdapters.LocalDateTypeAdapter
+import com.example.roomie.data.models.Payment
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import java.time.LocalDate

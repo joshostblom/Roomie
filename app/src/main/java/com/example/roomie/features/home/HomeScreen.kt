@@ -4,8 +4,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.example.roomie.domain.payments.Payment
-import com.example.roomie.domain.people.Person
+import com.example.roomie.data.models.Payment
+import com.example.roomie.data.models.Person
 import com.example.roomie.features.monthlySummary.MonthlySummary
 
 @Composable

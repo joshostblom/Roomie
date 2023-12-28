@@ -1,11 +1,12 @@
 package com.example.roomie.domain.homeConfiguration
 
 import android.content.Context
+import com.example.roomie.data.models.HomeConfiguration
 import com.google.gson.Gson
 
 class HomeConfigurationDatabase
     (
-    val context: Context,
+    private val context: Context,
 ) {
     fun getConfiguration(): HomeConfiguration {
         val sharedPref = context.getSharedPreferences("data", Context.MODE_PRIVATE)
