@@ -4,7 +4,6 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.roomie.data.models.Person
 import com.example.roomie.data.models.Resource
 import com.example.roomie.di.payment.GetPaymentsUseCase
 import com.example.roomie.di.person.GetPeopleUseCase
@@ -22,8 +21,11 @@ class MonthlySummaryViewModel @Inject constructor(
     private val _state = mutableStateOf(MonthlySummaryState())
     val state: State<MonthlySummaryState> = _state
 
-    // TODO: Figure this out
-    fun getPeopleAndPayments() {
+    init {
+        getPeopleAndPayments()
+    }
+
+    private fun getPeopleAndPayments() {
         viewModelScope.launch {
             getPeopleUseCase().onEach { result ->
                 when (result) {
@@ -32,9 +34,10 @@ class MonthlySummaryViewModel @Inject constructor(
                     }
 
                     is Resource.Success -> {
+                        result.data
                         _state.value = MonthlySummaryState(
-                            people = result.data,
-                            payments = _state.value.payments
+                            people = result.data ?: emptyList(),
+                            payments = _state.value.payments,
                         )
                     }
 
@@ -50,7 +53,11 @@ class MonthlySummaryViewModel @Inject constructor(
                         _state.value = MonthlySummaryState(isLoading = true)
                     }
                     is Resource.Success -> {
-                        _state.value = MonthlySummaryState()
+                        result.data
+                        _state.value = MonthlySummaryState(
+                            people = _state.value.people,
+                            payments = result.data ?: emptyList(),
+                        )
                     }
                     is Resource.Error -> {
                         _state.value = MonthlySummaryState(error = result.message)

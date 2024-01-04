@@ -9,18 +9,11 @@ import com.example.roomie.data.models.Person
 import com.example.roomie.features.monthlySummary.MonthlySummary
 
 @Composable
-fun HomeScreen(
-    people: List<Person>,
-    payments: List<Payment>,
-) {
+fun HomeScreen() {
 
     Column(
         modifier = Modifier.fillMaxSize(),
     ) {
-
-        MonthlySummary(
-            people = people,
-            payments = payments,
-        )
+        MonthlySummary()
     }
 }

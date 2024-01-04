@@ -6,6 +6,6 @@ import com.example.roomie.data.models.Person
 class MonthlySummaryState (
     val isLoading: Boolean = false,
     val error: String? = null,
-    val people: List<Person>? = null,
-    val payments: List<Payment>? = null,
+    val people: List<Person> = emptyList(),
+    val payments: List<Payment> = emptyList(),
 )

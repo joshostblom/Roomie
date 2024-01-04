@@ -1,7 +1,9 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("com.google.devtools.ksp") version "1.8.20-1.0.11"
+    id("kotlin-kapt")
+//    id("dagger.hilt.android.plugin")
+    id("com.google.devtools.ksp") version "1.9.21-1.0.16"
 }
 
 android {
@@ -41,7 +43,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.6"
+        kotlinCompilerExtensionVersion = "1.5.7"
     }
     packaging {
         resources {
@@ -70,17 +72,16 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
     // Destinations
-    implementation("io.github.raamcosta.compose-destinations:core:1.9.51")
-    ksp("io.github.raamcosta.compose-destinations:ksp:1.9.51")
+    implementation("io.github.raamcosta.compose-destinations:core:1.9.57")
+    ksp("io.github.raamcosta.compose-destinations:ksp:1.9.57")
 
     // Tools
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("com.github.skydoves:colorpicker-compose:1.0.5")
 
     // Dagger - Hilt
-    implementation("com.google.dagger:hilt-android-gradle-plugin:2.46.1")
-    implementation("com.google.dagger:hilt-android:2.48")
-    implementation("com.google.dagger:hilt-compiler:2.46.1")
+    implementation("com.google.dagger:hilt-android:2.50")
+    kapt("com.google.dagger:hilt-compiler:2.50")
     implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
 
 }

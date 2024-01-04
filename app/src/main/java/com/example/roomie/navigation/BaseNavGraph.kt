@@ -21,14 +21,7 @@ import com.ramcosta.composedestinations.annotation.RootNavGraph
 @Destination
 @Composable
 fun HomeDestination() {
-    val context = LocalContext.current
-    val peopleDatabase by remember { mutableStateOf(PeopleDatabase(context)) }
-    val paymentDatabase by remember { mutableStateOf(PaymentDatabase(context)) }
-
-    HomeScreen(
-        people = peopleDatabase.getPeople(),
-        payments = paymentDatabase.getPayments(),
-    )
+    HomeScreen()
 }
 
 @RootNavGraph

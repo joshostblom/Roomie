@@ -17,8 +17,9 @@ class PersonRepositoryImpl @Inject constructor(
         return gson.fromJson(sharedPref.getString("people", ""), personType) ?: emptyList()
     }
 
-    override suspend fun setPeople(people: List<Person>) {
+    override suspend fun setPeople(people: List<Person>): List<Person> {
         val sharedPref = Factory.shared().getApplicationContext().getSharedPreferences("data", Context.MODE_PRIVATE)
         sharedPref.edit().putString("people", gson.toJson(people)).apply()
+        return people
     }
 }

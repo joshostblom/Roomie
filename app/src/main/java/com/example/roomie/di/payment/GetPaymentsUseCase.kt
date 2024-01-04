@@ -1,5 +1,6 @@
 package com.example.roomie.di.payment
 
+import com.example.roomie.data.models.Payment
 import com.example.roomie.data.models.Resource
 import com.example.roomie.data.repositories.PaymentRepository
 import kotlinx.coroutines.flow.Flow
@@ -9,7 +10,7 @@ import javax.inject.Inject
 class GetPaymentsUseCase @Inject constructor(
     private val paymentRepository: PaymentRepository
 ) {
-    operator fun invoke (): Flow<Resource<Any?>> =
+    operator fun invoke (): Flow<Resource<List<Payment>>> =
         flow {
             emit(Resource.Loading())
             try {

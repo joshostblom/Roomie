@@ -21,7 +21,7 @@ fun PayRentScreen(
 //    payRent: () -> Unit,
     rentCost: Double,
 ) {
-    val currentPerson = people.first()
+    val currentPerson = Person()
     val calcHelper = CalculationsHelper(
         payments = payments,
         people = people,

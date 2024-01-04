@@ -19,9 +19,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.roomie.domain.calculations.CalculationsHelper
 import com.example.roomie.data.models.Payment
-import com.example.roomie.data.models.Person
 import com.example.roomie.features.shared.Header
 import com.example.roomie.ui.theme.BackgroundGrey
 import com.example.roomie.ui.theme.DarkGreen
@@ -30,16 +30,17 @@ import java.time.LocalDate
 
 @Composable
 fun MonthlySummary(
-    people: List<Person>,
-    payments: List<Payment>,
+    modifier: Modifier = Modifier,
+    viewModel: MonthlySummaryViewModel = hiltViewModel(),
 ) {
+    val state = viewModel.state.value
     val calculationsHelper = CalculationsHelper(
-        people = people,
-        payments = payments,
+        people = state.people,
+        payments = state.payments,
     )
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(10.dp)
     ) {
@@ -53,24 +54,24 @@ fun MonthlySummary(
                 .padding(10.dp),
         ) {
             LazyColumn {
-                items(people.size) {
+                items(state.people.size) {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clip(RoundedCornerShape(5.dp))
-                            .background(color = people[it].color)
+                            .background(color = state.people[it].color)
                     ) {
                         Text(
                             modifier = Modifier
                                 .align(Alignment.Center),
-                            text = people[it].name,
+                            text = state.people[it].name,
                             fontSize = 20.sp,
                             fontWeight = FontWeight.SemiBold,
                         )
                     }
 
-                    payments.filter { payment ->
-                        payment.whoPaid == people[it] && payment.date.monthValue == LocalDate.now().monthValue
+                    state.payments.filter { payment ->
+                        payment.whoPaid == state.people[it] && payment.date.monthValue == LocalDate.now().monthValue
                     }.forEach { payment ->
                         PaymentListItem(payment = payment)
                     }
@@ -79,7 +80,7 @@ fun MonthlySummary(
 
                     PaymentListItem(
                         amount = calculationsHelper.getTotalSpent(
-                            person = people[it],
+                            person = state.people[it],
                         ),
                         title = "Total Spent",
                     )
@@ -110,14 +111,14 @@ fun MonthlySummary(
                     )
                 }
 
-                items(people.size) {
+                items(state.people.size) {
 
                     val totalOwed = calculationsHelper.getAmountOwed(
-                        person = people[it],
+                        person = state.people[it],
                     )
                     PaymentListItem(
                         amount = totalOwed,
-                        title = people[it].name + " Owes",
+                        title = state.people[it].name + " Owes",
                         color = if (totalOwed > 0) SubtleRed else DarkGreen
                     )
                 }
