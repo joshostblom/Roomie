@@ -12,6 +12,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,6 +39,10 @@ fun MonthlySummary(
         people = state.people,
         payments = state.payments,
     )
+
+    LaunchedEffect(Unit) {
+        viewModel.getPeopleAndPayments()
+    }
 
     Column(
         modifier = modifier

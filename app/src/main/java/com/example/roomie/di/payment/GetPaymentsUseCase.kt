@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class GetPaymentsUseCase @Inject constructor(
-    private val paymentRepository: PaymentRepository
+    private val paymentRepository: PaymentRepository,
 ) {
     operator fun invoke (): Flow<Resource<List<Payment>>> =
         flow {
