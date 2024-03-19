@@ -1,16 +1,19 @@
 package com.example.roomie.features.monthlySummary
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.roomie.data.models.Resource
 import com.example.roomie.di.payment.GetPaymentsUseCase
 import com.example.roomie.di.person.GetPeopleUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,10 +22,25 @@ class MonthlySummaryViewModel @Inject constructor(
     private val getPaymentsUseCase: GetPaymentsUseCase,
 ) : ViewModel() {
 
-    private val _state = mutableStateOf(MonthlySummaryState())
-    val state: State<MonthlySummaryState> = _state
+    private val _state = MutableStateFlow(MonthlySummaryState())
+    val state: StateFlow<MonthlySummaryState> = _state.asStateFlow()
 
-    fun getPeopleAndPayments() {
+    init {
+        getPeopleAndPayments()
+    }
+
+    private fun getPeopleAndPayments() {
+        _state.value = combine(getPeopleUseCase(), getPaymentsUseCase()) { people, payments ->
+            MonthlySummaryState(
+                people = people.data ?: emptyList(),
+                payments = payments.data ?: emptyList()
+            )
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(500),
+            initialValue = MonthlySummaryState(isLoading = true)
+        ).value
+
         getPeopleUseCase().onEach { result ->
             when (result) {
                 is Resource.Loading -> {
@@ -30,10 +48,7 @@ class MonthlySummaryViewModel @Inject constructor(
                 }
 
                 is Resource.Success -> {
-                    _state.value = MonthlySummaryState(
-                        people = result.data ?: emptyList(),
-                        payments = _state.value.payments,
-                    )
+                    _state.value = _state.value.copy(people = result.data ?: emptyList())
                 }
 
                 is Resource.Error -> {
@@ -49,10 +64,7 @@ class MonthlySummaryViewModel @Inject constructor(
                 }
 
                 is Resource.Success -> {
-                    _state.value = MonthlySummaryState(
-                        people = _state.value.people,
-                        payments = result.data ?: emptyList(),
-                    )
+                    _state.value = _state.value.copy(payments = result.data ?: emptyList())
                 }
 
                 is Resource.Error -> {

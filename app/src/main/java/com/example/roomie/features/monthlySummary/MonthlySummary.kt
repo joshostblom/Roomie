@@ -1,6 +1,7 @@
 package com.example.roomie.features.monthlySummary
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -8,11 +9,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Divider
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,26 +31,25 @@ import com.example.roomie.ui.theme.BackgroundGrey
 import com.example.roomie.ui.theme.DarkGreen
 import com.example.roomie.ui.theme.SubtleRed
 import java.time.LocalDate
+import java.util.Locale
 
 @Composable
 fun MonthlySummary(
     modifier: Modifier = Modifier,
     viewModel: MonthlySummaryViewModel = hiltViewModel(),
 ) {
-    val state = viewModel.state.value
+    val state by viewModel.state.collectAsState()
     val calculationsHelper = CalculationsHelper(
         people = state.people,
         payments = state.payments,
     )
 
-    LaunchedEffect(Unit) {
-        viewModel.getPeopleAndPayments()
-    }
-
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(10.dp)
+            .padding(10.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(10.dp),
     ) {
         Header("Monthly Summary")
 
@@ -81,7 +83,7 @@ fun MonthlySummary(
                         PaymentListItem(payment = payment)
                     }
 
-                    Divider(color = Color.Black)
+                    HorizontalDivider(color = Color.Black)
 
                     PaymentListItem(
                         amount = calculationsHelper.getTotalSpent(
@@ -129,6 +131,9 @@ fun MonthlySummary(
                 }
             }
         }
+        if (state.isLoading) {
+            CircularProgressIndicator()
+        }
     }
 }
 
@@ -161,14 +166,14 @@ fun PaymentListItem(
                 Text(
                     modifier = Modifier
                         .align(Alignment.CenterEnd),
-                    text = String.format("$%.2f", amount ?: payment?.payment),
+                    text = String.format(Locale.US, "$%.2f", amount ?: payment?.payment),
                 )
             }
         } else {
             Text(
                 modifier = Modifier
                     .align(Alignment.CenterEnd),
-                text = String.format("$%.2f", amount ?: payment?.payment),
+                text = String.format(Locale.US, "$%.2f", amount ?: payment?.payment),
             )
         }
     }
